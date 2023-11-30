@@ -3,6 +3,11 @@ package lambdas;
 import java.time.LocalDate;
 
 public class Person {
+
+    public enum Sex{
+        MALE, FEMALE
+    }
+    Sex sex;
     int age;
     private String name;
     private String email;
@@ -12,6 +17,13 @@ public class Person {
         this.age = age;
     }
 
+    public void setSex(Sex sex) {
+        this.sex = sex;
+    }
+
+    public Sex getSex(){
+        return this.sex;
+    }
     public int getAge() {
         return this.age;
     }

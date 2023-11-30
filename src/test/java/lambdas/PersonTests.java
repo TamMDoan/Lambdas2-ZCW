@@ -17,6 +17,15 @@ public class PersonTests {
     }
 
     @Test
+    public void testPersonSex(){
+        Person person = new Person();
+        person.setSex(Person.Sex.FEMALE);
+        Person.Sex actual = person.getSex();
+
+        Assert.assertEquals(Person.Sex.FEMALE, actual);
+    }
+
+    @Test
     public void testPersonGetAge(){
         Person person = new Person();
         int expected = 23;
