@@ -53,6 +53,6 @@ public class Person {
     }
 
     public void printPerson() {
-        System.out.println("Person print placeholder");
+        System.out.println("Person " + this.name + " print placeholder");
     }
 }

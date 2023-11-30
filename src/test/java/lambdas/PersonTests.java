@@ -96,7 +96,7 @@ public class PersonTests {
 
         person.printPerson();
 
-        Assert.assertEquals("Person print placeholder", outputStream.toString().trim());
+        Assert.assertEquals("Person " + person.getName() + " print placeholder", outputStream.toString().trim());
 
     }
 }
