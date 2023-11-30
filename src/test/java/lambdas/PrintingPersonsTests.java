@@ -18,75 +18,16 @@ public class PrintingPersonsTests {
     private final ByteArrayOutputStream outputStream2 = new ByteArrayOutputStream();
     private final PrintStream printStream = System.out;
     private final PrintStream printStream2 = System.err;
+    public List<Person> personList;
 
     @Before
     public void setUpStreams(){
         System.setOut(new PrintStream(outputStream));
         System.setErr(new PrintStream(outputStream2));
     }
-
-    @After
-    public void restoreStreams(){
-        System.setOut(printStream);
-        System.setErr(printStream2);
-    }
-    @Test
-    public void testPrintingPersonsPrint(){
-        List<Person> personList = new ArrayList<>();
-        LocalClass localClass = new LocalClass();
-        Person person = new Person();
-        person.setName("Tam");
-        person.setAge(19);
-        person.setSex(Person.Sex.FEMALE);
-        Person person2 = new Person();
-        person2.setName("Maria");
-        person2.setAge(42);
-        person2.setSex(Person.Sex.MALE);
-
-        personList.add(person);
-        personList.add(person2);
-
-        // LocalClass's test checks to see if a person's age is > 20
-        PrintingPersons.printPersons(personList, localClass);
-
-        Assert.assertEquals("Person " + person2.getName() + " print placeholder", outputStream.toString().trim());
-
-    }
-
-    @Test
-    public void testPrintPersonsPrintWithAnon(){
-        // THIS IS THE ANON (I think) VVVVVVV
-        CheckPerson anonTest = new CheckPerson() {
-            @Override
-            public boolean test(Person p) {
-                return p.getName().length() < 4;
-            }
-        };
-
-        List<Person> personList = new ArrayList<>();
-        Person person = new Person();
-        person.setName("Tam");
-        person.setAge(19);
-        person.setSex(Person.Sex.FEMALE);
-        Person person2 = new Person();
-        person2.setName("Maria");
-        person2.setAge(42);
-        person2.setSex(Person.Sex.MALE);
-
-        personList.add(person);
-        personList.add(person2);
-
-        PrintingPersons.printPersons(personList, anonTest);
-
-        Assert.assertEquals("Person " + person.getName() + " print placeholder", outputStream.toString().trim());
-
-    }
-
-    @Test
-    public void testPrintingPersonWithLambda(){
-        LocalDate dateToCompare = LocalDate.of(2010,1,1);
-
-        List<Person> personList = new ArrayList<>();
+    @Before
+    public void setUp(){
+        personList = new ArrayList<>();
         Person person = new Person();
         person.setName("Tam");
         person.setAge(19);
@@ -100,12 +41,49 @@ public class PrintingPersonsTests {
 
         personList.add(person);
         personList.add(person2);
+    }
+
+    @After
+    public void restoreStreams(){
+        System.setOut(printStream);
+        System.setErr(printStream2);
+    }
+    @Test
+    public void testPrintingPersonsPrint(){
+        LocalClass localClass = new LocalClass();
+
+        // LocalClass's test checks to see if a person's age is > 20
+        PrintingPersons.printPersons(personList, localClass);
+
+        Assert.assertEquals("Person " + personList.get(1).getName() + " print placeholder", outputStream.toString().trim());
+
+    }
+
+    @Test
+    public void testPrintPersonsPrintWithAnon(){
+        // THIS IS THE ANON (I think) VVVVVVV
+        CheckPerson anonTest = new CheckPerson() {
+            @Override
+            public boolean test(Person p) {
+                return p.getName().length() < 4;
+            }
+        };
+
+        PrintingPersons.printPersons(personList, anonTest);
+
+        Assert.assertEquals("Person " + personList.get(0).getName() + " print placeholder", outputStream.toString().trim());
+
+    }
+
+    @Test
+    public void testPrintingPersonWithLambda(){
+        LocalDate dateToCompare = LocalDate.of(2010,1,1);
 
         personList.forEach((p) -> {
             if(p.getBirthday().isBefore(dateToCompare)){
                 p.printPerson();
         }});
 
-        Assert.assertEquals("Person " + person.getName() + " print placeholder", outputStream.toString().trim());
+        Assert.assertEquals("Person " + personList.get(0).getName() + " print placeholder", outputStream.toString().trim());
     }
 }
