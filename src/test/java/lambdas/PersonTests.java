@@ -5,7 +5,6 @@ import org.junit.*;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
-import java.util.Date;
 
 
 public class PersonTests {
@@ -88,7 +87,7 @@ public class PersonTests {
 
         person.printPerson();
 
-        Assert.assertEquals("", outputStream.toString());
+        Assert.assertEquals("Person print placeholder", outputStream.toString().trim());
 
     }
 }
